@@ -1,5 +1,37 @@
 const canvas= document.querySelector("#pong");
 const ctx=canvas.getContext("2d");
+
+const PLAYER_HEIGHT=100;
+const PLAYER_WIDTH=20;
+const BALL_START_SPEED=1;
+
+const player={
+    x:0,
+    y:canvas.height/2- PLAYER_HEIGHT/2,
+    width: PLAYER_WIDTH ,
+    height:PLAYER_HEIGHT,
+    color: "Goldenrod",
+    score: 0,
+}
+const computer={
+    x:canvas.width- PLAYER_WIDTH,
+    y:canvas.height/2- PLAYER_HEIGHT/2,
+    width: PLAYER_WIDTH ,
+    height:PLAYER_HEIGHT,
+    color: "Crimson",
+    score: 0,
+}
+
+const ball={
+    x:canvas.width/2,
+    y:canvas.height/2,
+    radius: 10,
+    speed: BALL_START_SPEED,
+    velocityX: 5,
+    velocityY:5,
+    color: "Pink"
+}
+
 const net={
     x: canvas.width/2-1,
     y:0,
@@ -42,9 +74,13 @@ function render(){
 
 drawNet();
 
-drawText("0",canvas.width/5,canvas.height/7,"Green");
-drawText("0",(3*canvas.width)/4,canvas.height/7,"Green");
+drawText(player.score,canvas.width/5,canvas.height/7,"Green");
+drawText(computer.score,(3*canvas.width)/4,canvas.height/7,"Green");
 
+drawRect(player.x, player.y, player.width,player.height,player.color);
+drawRect(computer.x, computer.y, computer.width,computer.height,computer.color);
+
+drawCircle(ball.x,ball.y,ball.radius,ball.color);
 
 }
 
