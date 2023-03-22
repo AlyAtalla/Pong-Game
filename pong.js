@@ -1,10 +1,11 @@
 const canvas = document.querySelector("#pong");
 const ctx = canvas.getContext("2d");
 
-const COM_LEVEL= 0.5;
+const COM_LEVEL= 0.2;
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 20;
 const BALL_START_SPEED = 1;
+const BALL_DELTA_SPEED= 0.1;
 
 const player = {
     x: 0,
@@ -100,7 +101,17 @@ function collision(b, p) {
     );
 }
 
+function resetBall(){
+    ball.x=canvas.width/2;
+    ball.y= canvas.height/2;
+    ball.speed= BALL_START_SPEED;
+    ball.velocityX= -ball.velocityX;
+}
+
 canvas.addEventListener("mousemove", (e) => {
+
+    if (paused) return;
+
     let rect= canvas.getBoundingClientRect();
 
     player.y = e.clientY - rect.top -player.height/2;
@@ -116,7 +127,14 @@ function lerp(a ,b, t){
 
 }
 
+let paused=false;
+
 function update() {
+
+if (paused) return;
+
+
+
     ball.x += ball.velocityX * ball.speed;
     ball.y += ball.velocityY * ball.speed;
 
@@ -127,13 +145,23 @@ function update() {
     let selectedPlayer = ball.x < canvas.width / 2 ? player : computer
     if (collision(ball, selectedPlayer)) {
         ball.velocityX = -ball.velocityX
-
+ball.speed+= BALL_DELTA_SPEED;
 
     }
 
     let targetPos= ball.y-computer.height/2;
     let currentPos= computer.y;
     computer.y=lerp(currentPos, targetPos, COM_LEVEL);
+
+    if(ball.x - ball.radius<0){
+        computer.score++;
+        resetBall();
+    }
+    else if(ball.x + ball.radius> canvas.width){
+        player.score++;
+        resetBall();
+    }
+    
 }
 
 
@@ -147,3 +175,17 @@ function game() {
 
 const FPS = 60;
 setInterval(game, 1000 / FPS);
+
+
+const pauseBtn= document.querySelector("#pause");
+pauseBtn.addEventListener("click", ()=>{
+    if (pauseBtn.innerHTML==="Resume"){
+        pauseBtn.innerHTML="Pause";
+        paused=false;
+    }
+    else{
+pauseBtn.innerHTML="Resume";
+paused= true;
+    }
+    
+})
