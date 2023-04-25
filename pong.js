@@ -1,5 +1,12 @@
+
+
+
+
 const canvas = document.querySelector("#pong");
 const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height =window.innerHeight;
+
 
 const COM_LEVEL= 0.2;
 const PLAYER_HEIGHT = 100;
@@ -117,6 +124,7 @@ canvas.addEventListener("mousemove", (e) => {
     player.y = e.clientY - rect.top -player.height/2;
     
 });
+
 
 
 
