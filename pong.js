@@ -14,6 +14,8 @@ const PLAYER_WIDTH = 20;
 const BALL_START_SPEED = 1;
 const BALL_DELTA_SPEED= 0.1;
 
+
+
 const player = {
     x: 0,
     y: canvas.height / 2 - PLAYER_HEIGHT / 2,
